@@ -12,84 +12,74 @@ if (document.getElementById('quiz')) {
   const username = document.querySelector('.user');
   const bg_modal = document.querySelector('.bg-modal');
   const current_score = document.querySelector('.score__current');
-  // const close_score = document.querySelector('.score__close');
   const correctAns = document.querySelector('.correct');
   const incorrectAns = document.querySelector('.incorrect');
   const stopBtn = document.querySelector('.quiz__btn');
-  const progress_bar = document.getElementById('progress__bar');
+  const progress_bar = document.querySelector('.progress__bar');
+  const quiz_plus = document.querySelector('.quiz__center-plus');
+  const quiz_minus = document.querySelector('.quiz__center-minus');
 
   let win = 0;
   let correctQty = 0;
   let incorrectQty = 0;
-  let id;
 
   let user = JSON.parse(localStorage.getItem('username'));
   let highScore = JSON.parse(localStorage.getItem('score')) || [];
+  const m = highScore?.find((item) => item.username === user.username);
+
   username.textContent = `Have a fun, ${user.username}:)`;
 
   function savingSores() {
-    console.log(highScore);
+    if (win === 0) return null;
+
     const score = {
       score: win,
       correct: correctQty,
       incorrect: incorrectQty,
       ...user,
     };
-    highScore.push(score);
+    if (!m) {
+      highScore.push(score);
+    }
+    if (m && m.score < win) {
+      highScore = highScore.filter((item) => item.username !== m.username);
+      highScore.push(score);
+    }
     highScore.sort((a, b) => b.score - a.score);
-    highScore.splice(5);
     localStorage.setItem('score', JSON.stringify(highScore));
   }
 
+  let id;
+
   if (user.mode === 'time-attack') {
-    timer.innerHTML = '00' + ':' + '11';
-    startTimer();
+    let startMin = 0.1;
+    let time = startMin * 60;
+    let total = time;
+    id = setInterval(startTimer, 1000);
 
     function startTimer() {
-      const presentTime = document.getElementById('timer').innerHTML;
-      const timeArray = presentTime.split(/[:]+/);
-      let m = timeArray[0];
-      const s = checkSecond(timeArray[1] - 1);
-      if (s == 59) {
-        m = m - 1;
-      }
+      let minutes = Math.floor(time / 60);
+      let second = time % 60;
+      minutes = minutes < 10 ? '0' + minutes : minutes;
+      second = second < 10 ? '0' + second : second;
+      timer.innerHTML = `${minutes} : ${second}`;
+      time--;
 
-      // let pr = (presentTime / 10) * 100;
-      // if (presentTime > 0) {
-      //   progress_bar.style.width = pr + '%';
-      // }
+      progress_bar.style.width = (time * 100) / total + '%';
 
-      if (m < 0) {
-        setTimeout(id);
+      if (time < 0) {
+        var audio = new Audio('../assets/audio/ding-ding-sound-effect.mp3');
+        audio.play();
+        clearInterval(id);
         document.body.style.overflow = 'hidden';
         bg_modal.style.opacity = 1;
         bg_modal.style.visibility = 'visible';
         current_score.innerHTML = win;
         correctAns.innerHTML = `Correct : ${correctQty} `;
         incorrectAns.innerHTML = `Incorrect : ${incorrectQty}`;
-
-        // close_score &&
-        //   close_score.addEventListener('click', () => {
-        //     document.body.style.overflow = 'auto';
-        //     bg_modal.style.opacity = 0;
-        //   });
-
         savingSores();
         return;
       }
-
-      timer.innerHTML = m + ':' + s;
-      id = setTimeout(startTimer, 1000);
-    }
-
-    function checkSecond(sec) {
-      if (sec < 10 && sec >= 0) {
-        sec = '0' + sec;
-      }
-      if (sec < 0) {
-        sec = '59';
-      }
-      return sec;
     }
   } else {
     timer.innerHTML = null;
@@ -137,14 +127,24 @@ if (document.getElementById('quiz')) {
   renderExample(example);
 
   function stopGame() {
-    win = 0;
+    clearInterval(id);
     bg_modal.style.opacity = 1;
     bg_modal.style.visibility = 'visible';
     current_score.innerHTML = win;
     correctAns.innerHTML = `Correct : ${correctQty} `;
     incorrectAns.innerHTML = `Incorrect : ${incorrectQty}`;
-    clearTimeout(id);
+    savingSores();
   }
+
+  // function setScore(value) {
+  //   win.dataset.added = '+' + value;
+  //   win.dataset.total = count += value;
+  //   if (count) win.classList.add('animate');
+
+  //   setTimeout(() => {
+  //     win.classList.remove('animate');
+  //   }, 500);
+  // }
 
   stopBtn &&
     stopBtn.addEventListener('click', () => {
@@ -170,7 +170,6 @@ if (document.getElementById('quiz')) {
           correctQty++;
           win++;
         }
-        // win += Number(result.value) === Number(example.result) ? +1 : -1;
         winElement.textContent = win;
 
         result.value = '';

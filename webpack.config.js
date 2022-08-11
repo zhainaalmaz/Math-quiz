@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const isDev = process.env.NODE_ENV === 'development';
 
-const htmlMultiplepages = ['index', 'quiz', 'leader-board', 'score-modal'];
+const htmlMultiplepages = ['index', 'quiz', 'leader-board'];
 
 const htmlPlugins = htmlMultiplepages.map((name) => {
   return new HtmlWebpackPlugin({

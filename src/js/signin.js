@@ -1,7 +1,18 @@
 if (document.getElementById('main')) {
+  window.onload = function () {
+    document.querySelector('.main__inner').style.opacity = 0;
+    setTimeout(() => {
+      document.querySelector('.main__inner').style.opacity = 1;
+      document.getElementById('loader').style.display = 'none';
+    }, 500);
+  };
+
   const form = document.getElementById('form');
-  const form_btn = document.querySelector('.form__btn');
   const username = document.getElementById('username');
+  const small = document.querySelector('.small');
+
+  const user = JSON.parse(localStorage.getItem('username')) || '';
+  username.value = user.username;
 
   function register() {
     if (username.value.trim() !== '') {
@@ -14,6 +25,8 @@ if (document.getElementById('main')) {
         })
       );
       window.location.replace('quiz.html');
+    } else {
+      small.innerHTML = 'The username must be required';
     }
   }
 
@@ -21,9 +34,10 @@ if (document.getElementById('main')) {
     e.preventDefault();
     register();
     form.reset();
-  });
 
-  username.oninput = (e) => {
-    username.value = e.target.value;
-  };
+    username.oninput = (e) => {
+      small.innerHTML = '';
+      username.value = e.target.value;
+    };
+  });
 }

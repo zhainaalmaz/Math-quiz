@@ -9,18 +9,20 @@
   <body>
     <main class="leaders" id="leaders">
       <div class="leaders__inner">
-        <a href="./quiz.html">
-          <div class="leaders__back">
-            <img src="./assets/icons/back.svg" />
-            Back to game
-          </div>
-        </a>
+        <div class="leaders__back" onclick="history.back()">
+          <img src="./assets/icons/back.svg" />
+          Back
+        </div>
 
         <div class="leaders__mode">
           <span>Game mode:</span>
-          <select name="" id="">
-            <option>Practice</option>
-            <option>Time Attack</option>
+          <select name="" id="leaders__mode-select">
+            <option value="practice" selected class="select__item">
+              Practice
+            </option>
+            <option value="time-attack" class="select__item">
+              Time Attack
+            </option>
           </select>
         </div>
         <h1>LEADERBOARD</h1>
