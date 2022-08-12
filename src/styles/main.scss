@@ -5,9 +5,10 @@
   border-radius: 50%;
   background: linear-gradient(45deg, transparent 40%, skyblue);
   animation: move 0.8s linear infinite;
-  top: 43%;
+  top: 40%;
   left: 43%;
 }
+
 .loader::before {
   position: absolute;
   content: '';
@@ -19,6 +20,7 @@
   border-radius: 50%;
   z-index: 2;
 }
+
 .loader::after {
   position: absolute;
   content: '';
@@ -38,11 +40,13 @@
 }
 
 .main {
+  width: 100%;
   background-color: #191a1b;
   color: white;
-  height: 100%;
+  min-height: 100vh;
   &__inner {
     h1 {
+      text-align: center;
       font-weight: 600;
       font-size: 48px;
       line-height: 20px;
@@ -50,7 +54,7 @@
       padding: 80px 0;
     }
     .form {
-      padding: 100px 20px;
+      padding: 20px;
       margin: 0 auto;
 
       &__control {
@@ -134,6 +138,7 @@
 
       &__leaderboards a {
         color: #01a7e1;
+        font-weight: 700;
       }
     }
   }
@@ -142,4 +147,25 @@
 .small {
   color: red;
   padding: 10px;
+}
+
+@media (max-width: 556px) {
+  .main__inner h1 {
+    padding: 40px 0;
+  }
+  .main__inner .form__control {
+    padding: 20px 0;
+    gap: 36px;
+  }
+  .main__inner .form {
+    padding: 0;
+  }
+
+  .loader {
+    display: none;
+  }
+
+  .main__inner .form__mode h2 {
+    font-size: 25px;
+  }
 }

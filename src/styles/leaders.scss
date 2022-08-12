@@ -14,7 +14,7 @@
 
   &__inner {
     padding: 40px;
-    width: 50%;
+    max-width: 50%;
     margin: 0 auto;
     background: #ffffff;
     box-shadow: 0px 4px 40px 1px rgba(0, 0, 0, 0.1);
@@ -56,7 +56,7 @@
     padding-bottom: 20px;
 
     img {
-      width: 50px;
+      width: 40px;
     }
   }
 
@@ -69,6 +69,36 @@
 
     &-score {
       font-weight: 600;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .leaders {
+    padding: 20px;
+    &__inner {
+      max-width: 70%;
+      h1 {
+        font-size: 36px;
+        line-height: 35px;
+      }
+    }
+  }
+}
+
+@media (max-width: 556px) {
+  .leaders {
+    &__inner {
+      max-width: 95%;
+      h1,
+      span {
+        font-size: 26px;
+        line-height: 35px;
+      }
+    }
+    &__back {
+      font-size: 16px;
+      line-height: 45px;
     }
   }
 }

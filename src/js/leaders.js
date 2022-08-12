@@ -10,10 +10,6 @@ if (document.getElementById('leaders')) {
     if (option.value === user.mode) {
       option.selected = true;
     }
-    // else {
-    //   console.log(option.value, '2');
-    //   option.value == 'time-attack';
-    // }
   });
 
   let filteredMode = null;

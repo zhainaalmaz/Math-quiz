@@ -12,7 +12,11 @@ if (document.getElementById('main')) {
   const small = document.querySelector('.small');
 
   const user = JSON.parse(localStorage.getItem('username')) || '';
-  username.value = user.username;
+  if (user.username === undefined) {
+    username.value = '';
+  } else {
+    username.value = user.username;
+  }
 
   function register() {
     if (username.value.trim() !== '') {

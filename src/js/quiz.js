@@ -1,5 +1,3 @@
-// import { startTimer, newTimer } from './timer';
-
 if (document.getElementById('quiz')) {
   const num1 = document.querySelector('.num-1');
   const num2 = document.querySelector('.num-2');
@@ -16,8 +14,10 @@ if (document.getElementById('quiz')) {
   const incorrectAns = document.querySelector('.incorrect');
   const stopBtn = document.querySelector('.quiz__btn');
   const progress_bar = document.querySelector('.progress__bar');
-  const quiz_plus = document.querySelector('.quiz__center-plus');
-  const quiz_minus = document.querySelector('.quiz__center-minus');
+  const plus_one = document.querySelector('.plus-one');
+  const minus_one = document.querySelector('.minus-one');
+  const quiz_result = document.querySelector('.quiz__result');
+  const quiz_inner = document.querySelector('.quiz__inner');
 
   let win = 0;
   let correctQty = 0;
@@ -25,7 +25,9 @@ if (document.getElementById('quiz')) {
 
   let user = JSON.parse(localStorage.getItem('username'));
   let highScore = JSON.parse(localStorage.getItem('score')) || [];
-  const m = highScore?.find((item) => item.username === user.username);
+  let m = highScore?.find(
+    (item) => item.username === user.username && item.mode === user.mode
+  );
 
   username.textContent = `Have a fun, ${user.username}:)`;
 
@@ -38,11 +40,13 @@ if (document.getElementById('quiz')) {
       incorrect: incorrectQty,
       ...user,
     };
-    if (!m) {
-      highScore.push(score);
-    }
+
     if (m && m.score < win) {
-      highScore = highScore.filter((item) => item.username !== m.username);
+      highScore = highScore.filter(
+        (item) => item.username !== m.username && item.mode !== m.mode
+      );
+      highScore.push(score);
+    } else {
       highScore.push(score);
     }
     highScore.sort((a, b) => b.score - a.score);
@@ -52,7 +56,7 @@ if (document.getElementById('quiz')) {
   let id;
 
   if (user.mode === 'time-attack') {
-    let startMin = 0.1;
+    let startMin = 1.0;
     let time = startMin * 60;
     let total = time;
     id = setInterval(startTimer, 1000);
@@ -128,23 +132,13 @@ if (document.getElementById('quiz')) {
 
   function stopGame() {
     clearInterval(id);
+    savingSores();
     bg_modal.style.opacity = 1;
     bg_modal.style.visibility = 'visible';
     current_score.innerHTML = win;
     correctAns.innerHTML = `Correct : ${correctQty} `;
     incorrectAns.innerHTML = `Incorrect : ${incorrectQty}`;
-    savingSores();
   }
-
-  // function setScore(value) {
-  //   win.dataset.added = '+' + value;
-  //   win.dataset.total = count += value;
-  //   if (count) win.classList.add('animate');
-
-  //   setTimeout(() => {
-  //     win.classList.remove('animate');
-  //   }, 500);
-  // }
 
   stopBtn &&
     stopBtn.addEventListener('click', () => {
@@ -161,20 +155,48 @@ if (document.getElementById('quiz')) {
             'Opps! Correct answer is ' + Number(example.result) + '.';
           if (win <= 0) {
             win;
+            quiz_result.classList.add('win-error');
+            minus_one.innerHTML = '-1';
+            minus_one.style.display = 'block';
+            setTimeout(() => {
+              minus_one.style.display = 'none';
+              minus_one.innerHTML = '';
+              quiz_result.classList.remove('win-error');
+            }, 500);
           } else {
             win--;
+            quiz_result.classList.add('win-error');
+            minus_one.innerHTML = '-1';
+            minus_one.style.display = 'block';
+            setTimeout(() => {
+              minus_one.style.display = 'none';
+              minus_one.innerHTML = '';
+              quiz_result.classList.remove('win-error');
+            }, 500);
           }
           incorrectQty++;
         } else {
           correct.textContent = 'Wow, score is added!';
           correctQty++;
           win++;
+          plus_one.innerHTML = '+1';
+          plus_one.style.display = 'block';
+          setTimeout(() => {
+            plus_one.style.display = 'none';
+            plus_one.innerHTML = '';
+          }, 1000);
         }
         winElement.textContent = win;
+
+        quiz_inner.classList.add('score-leave');
 
         result.value = '';
         example = generateExample();
         renderExample(example);
       }
     });
+
+  quiz_inner.addEventListener('animationend', () => {
+    quiz_inner.classList.remove('score-leave');
+  });
 }
