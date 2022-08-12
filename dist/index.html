@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Math quiz</title>
+  <script defer src="bundle.js"></script></head>
+  <body>
+    <main id="main" class="main">
+      <div class="loader" id="loader"></div>
+      <div class="container">
+        <section class="main__inner">
+          <h1>Math quiz</h1>
+          <form role="form" id="form" class="form">
+            <div class="form__control">
+              <div class="form__control-register">
+                <small class="small"></small>
+                <label for="username"></label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value=""
+                  placeholder="username"
+                />
+              </div>
+              <div class="form__mode">
+                <h2>Choose your game mode</h2>
+                <div class="form__mode-items">
+                  <div class="form__mode-radio">
+                    <input
+                      type="radio"
+                      id="practice"
+                      name="practice"
+                      value="practice"
+                      checked
+                    />
+                    <label for="practice">Practice</label>
+                  </div>
+                  <div class="form__mode-radio">
+                    <input
+                      type="radio"
+                      id="time-attack"
+                      name="practice"
+                      value="time-attack"
+                    />
+                    <label for="time-attack">Time attack</label>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <button class="form__btn btn" type="submit">Start</button>
+              </div>
+              <div class="form__rules">
+                <p>
+                  Don't know rules?<a
+                    href="https://www.wikipedia.org/"
+                    target="_blank"
+                  >
+                    Click here!</a
+                  >
+                </p>
+              </div>
+              <div class="form__leaderboards">
+                <a href="./leader-board.html">LEADERBOARDS</a>
+              </div>
+            </div>
+          </form>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

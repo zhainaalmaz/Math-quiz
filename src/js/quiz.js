@@ -29,7 +29,6 @@ if (document.getElementById('quiz')) {
     (item) => item.username === user.username && item.mode === user.mode
   );
 
-  console.log(m, 'm');
   username.textContent = `Have a fun, ${user.username}:)`;
 
   function savingSores() {
