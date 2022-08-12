@@ -29,6 +29,7 @@ if (document.getElementById('quiz')) {
     (item) => item.username === user.username && item.mode === user.mode
   );
 
+  console.log(m, 'm');
   username.textContent = `Have a fun, ${user.username}:)`;
 
   function savingSores() {
@@ -42,11 +43,11 @@ if (document.getElementById('quiz')) {
     };
 
     if (m && m.score < win) {
-      highScore = highScore.filter(
+      highScore = highScore?.filter(
         (item) => item.username !== m.username && item.mode !== m.mode
       );
       highScore.push(score);
-    } else {
+    } else if (!m) {
       highScore.push(score);
     }
     highScore.sort((a, b) => b.score - a.score);
@@ -87,6 +88,7 @@ if (document.getElementById('quiz')) {
     }
   } else {
     timer.innerHTML = null;
+    progress_bar.style.display = 'none';
     savingSores();
   }
 
@@ -187,9 +189,7 @@ if (document.getElementById('quiz')) {
           }, 1000);
         }
         winElement.textContent = win;
-
         quiz_inner.classList.add('score-leave');
-
         result.value = '';
         example = generateExample();
         renderExample(example);
