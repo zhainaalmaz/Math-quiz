@@ -93,6 +93,7 @@ if (document.getElementById('quiz')) {
   var stopGame = function stopGame() {
     clearInterval(id);
     savingSores();
+    document.body.style.overflow = 'hidden';
     bg_modal.style.opacity = 1;
     bg_modal.style.visibility = 'visible';
     current_score.innerHTML = win;
@@ -155,7 +156,7 @@ if (document.getElementById('quiz')) {
       }
     };
 
-    var startMin = 1.0;
+    var startMin = 1.5;
     var time = startMin * 60;
     var total = time;
     id = setInterval(startTimer, 1000);

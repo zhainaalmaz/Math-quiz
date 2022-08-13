@@ -56,7 +56,7 @@ if (document.getElementById('quiz')) {
   let id;
 
   if (user.mode === 'time-attack') {
-    let startMin = 1.0;
+    let startMin = 1.5;
     let time = startMin * 60;
     let total = time;
     id = setInterval(startTimer, 1000);
@@ -134,6 +134,7 @@ if (document.getElementById('quiz')) {
   function stopGame() {
     clearInterval(id);
     savingSores();
+    document.body.style.overflow = 'hidden';
     bg_modal.style.opacity = 1;
     bg_modal.style.visibility = 'visible';
     current_score.innerHTML = win;
